@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Loginpage from "./pages/loginpage";
+import GoToTop from "./componet/GoToTop";
+import Registerpage from "./pages/registerpage";
+import Resetpassword from "./pages/resetpassword";
+import Dashboard from "./pages/dashboard";
+import Welcome from "./pages/welcome";
+import Conditions from "./pages/conditions";
+import Chat from "./pages/chat";
+import Notfound from "./pages/notfound";
 
-function App() {
+function Main() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <GoToTop />
+      <Routes>
+        <Route path="/" element={<Welcome />} />
+        <Route path="/therapist-conditions" element={<Conditions />} />
+        <Route path="/therapist-loginpage" element={<Loginpage />} />
+        <Route path="/student-loginpage" element={<Loginpage />} />
+        <Route path="/registerPage" element={<Registerpage />} />
+        <Route path="/resetpassword" element={<Resetpassword />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/Chat" element = {<Chat/>}/>
+        <Route path="/notfound" element = {<Notfound/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App;
+export default Main;
+;
