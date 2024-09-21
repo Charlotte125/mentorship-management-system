@@ -4,6 +4,7 @@ import Loginpage from "./pages/LoginPage";
 import WelcomePage from "./pages/WelcomePage";
 import SignupPage from "./pages/SignupPage";
 import ForgotpasswordPage from "./pages/ForgotpasswordPage";
+import Dashboard from "./pages/Dashboard";
 
 
 function Main() {
@@ -14,6 +15,7 @@ function Main() {
         <Route path="/login" element={<Loginpage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/reset-password" element={<ForgotpasswordPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       
       </Routes>
     </BrowserRouter>
