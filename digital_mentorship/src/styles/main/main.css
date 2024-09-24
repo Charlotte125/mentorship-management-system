@@ -8,7 +8,7 @@ h2 {
   text-align: center;
 }
 
-p, h2, h1 {
+p, h2, h1, label {
   font-family: Palatino;
 }
 
@@ -54,6 +54,11 @@ form button {
   height: 45px;
   color: #FFFFFF;
   font-size: 14px;
+}
+form .field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .lower-text {

@@ -11,7 +11,7 @@ const SignupPage = () => {
             <h2>Register</h2>
             <input type="text" placeholder="First name"></input>
             <input type="text" placeholder="Last name"></input>
-            <input type="number" placeholder="Registration number"></input>
+            <input type="number" placeholder="Identification number"></input>
             <input type="text" placeholder="Department"></input>
             <input type="email" placeholder="email"></input>
             <input type="Password" placeholder="Password"></input>
