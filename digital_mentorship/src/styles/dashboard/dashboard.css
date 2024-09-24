@@ -2,41 +2,12 @@
   display: flex;
   gap: 40px;
 }
-.Dashboard .side-bar {
+.Dashboard .col .row {
   display: flex;
   flex-direction: column;
-  background-color: #F8F9FD;
+  gap: 50px;
 }
-.Dashboard .side-bar .title {
-  display: flex;
-  align-items: center;
-  padding: 40px;
-}
-.Dashboard .side-bar .title span {
-  color: #3D64FD;
-}
-.Dashboard .side-bar .title p {
-  display: flex;
-  gap: 5px;
-}
-.Dashboard .side-bar .icons {
-  font-size: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  padding: 25px;
-  height: 100vh;
-}
-.Dashboard .side-bar .icons .icon-text {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-}
-.Dashboard .col {
-  flex-grow: 1;
-}
-.Dashboard .col .row-1 {
+.Dashboard .col .row .row-1 {
   padding: 15px;
   display: flex;
   justify-content: space-between;
@@ -49,27 +20,50 @@
   margin-right: -40px;
   border-bottom: 1px solid #AFB8CF;
 }
-.Dashboard .col .row-1 .text-line {
+.Dashboard .col .row .row-1 .text-line {
   display: flex;
   gap: 12px;
 }
-.Dashboard .col .row-1 .text-line p {
+.Dashboard .col .row .row-1 .text-line p {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 6px;
 }
-.Dashboard .col .row-1 .text-line span {
+.Dashboard .col .row .row-1 .text-line span {
   color: #3D64FD;
 }
-.Dashboard .col .row-1 .img-text {
+.Dashboard .col .row .row-1 .img-text {
   display: flex;
   gap: 8px;
 }
-.Dashboard .col .row-1 .img-text .text {
+.Dashboard .col .row .row-1 .img-text .text {
   display: flex;
   flex-direction: column;
 }
-.Dashboard .col .row-1 .img-text .img img {
-  border-radius: 50%; /* To make the image circular */
+.Dashboard .col .row .row-1 .img-text .img img {
+  border-radius: 50%;
+}
+.Dashboard .col .row .lower-section {
+  padding-inline: 250px;
+}
+.Dashboard .col .row .lower-section .row-2 {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 30px;
+  padding: 20px;
+  background-color: #FFFFFF;
+  border: 1px solid #F0F0F0;
+  height: 151px;
+  width: 95%;
+  box-shadow: 0px 4px 10px rgba(226, 236, 249, 0.5019607843);
+}
+.Dashboard .col .row .lower-section .row-2 .col {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+.Dashboard .col .row .lower-section .row-2 .col img {
+  width: 42px;
 }/*# sourceMappingURL=dashboard.css.map */

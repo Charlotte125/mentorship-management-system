@@ -3,6 +3,7 @@ import "../styles/main/main.css";
 import { FaCalendarAlt } from "react-icons/fa";
 import { RiMessage2Line } from "react-icons/ri";
 import { IoIosLogOut } from "react-icons/io";
+import "../styles/sidebar/sidebar.css"
 
 const sidebar = () => {
   return (
