@@ -8,11 +8,15 @@ import Dashboard from "./pages/Dashboard";
 import TherapistLoginPage from "./pages/therapist/TherapistLoginPage";
 import Conditions from "./pages/therapist/Conditions";
 import TherapistSignupPage from "./pages/therapist/TherapistSignupPage";
+import Chat from "./pages/Chat";
+
+
+
 function Main() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route path="/" element={<WelcomePage />} />   
+        <Route path="/" element={<WelcomePage />} />   
         <Route path="/login" element={<Loginpage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/reset-password" element={<ForgotpasswordPage />} />
@@ -20,11 +24,14 @@ function Main() {
         <Route path="/conditions" element={<Conditions />} />
         <Route path="/therapist_login" element={<TherapistLoginPage />} />
         <Route path="/therapist_signup" element={<TherapistSignupPage />} />
-
+        <Route path="/chat-room" element={<Chat />} />
       </Routes>
+      <div>
+
+      </div>
     </BrowserRouter>
+    
   );
 }
 
 export default Main;
-;

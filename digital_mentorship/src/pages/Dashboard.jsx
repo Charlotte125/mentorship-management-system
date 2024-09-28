@@ -7,6 +7,7 @@ import Sidebar from "../components/Sidebar";
 import profile from "../../src/img/profile.svg";
 import tick from "../../src/img/tick.svg";
 import monitor from "../../src/img/monitor.svg";
+import Table from "../components/Table";
 
 const Dashboard = () => {
   return (
@@ -60,6 +61,8 @@ const Dashboard = () => {
             </div>
           </div>
          </div>
+         <Table/>
+
         </div>
       </div>
     </div>

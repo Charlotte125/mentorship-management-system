@@ -15,7 +15,8 @@
   height: 96px;
   align-items: center;
   background-color: #FFFFFF;
-  width: 90vw;
+  width: 89vw;
+  box-sizing: border-box;
   margin-left: -40px;
   margin-right: -40px;
   border-bottom: 1px solid #AFB8CF;
