@@ -1,75 +1,54 @@
 .table-container {
-    width: 80%;
-  margin: 0 auto;
-  text-align: center;
-  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-  border-radius: 8px; /* Border-radius for the container */
-  overflow: hidden; 
-   
+    table {
+        border: 1px solid #E2ECF980;
+        padding: 30px;
+        border-radius: 30px;
+        width: 65%;
+        height: 812px;
 
-    .customer-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-        box-shadow: 0px 4px 10px #E2ECF980;
-        border: 1px solid #F0F0F0;
-     
-       
-       
-        td,
-        th {
-            // border: 1px solid #F0F0F0;
-            padding: 12px;
-            text-align: center;
-            border-collapse: collapse;
-
-        }
-
-        th {
-            background-color: #FFFFFF;
-
-        }
-
-        tr:nth-child(even) {
-              background-color: #FFFFFF;
-
-        }
-
-        tr {
-            background-color: #FFFFFF;
-
-        }
 
         .table-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            margin-bottom: 32px;
 
             .search-bar {
-                input {
-                    padding: 10px;
-                    width: 300px;
-                    font-size: 16px;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
+                display: flex;
+                align-items: center;
+                position: relative;
+              
+                .input-container {
+                  position: relative;
+                  width: 100%;
+                  padding: 10px;  // Add padding to the input container (optional)
+                  
+                  input {
+                    width: 100%;
+                    padding: 10px 40px 10px 40px; // Adjust padding for top, right, bottom, and left
+                    box-sizing: border-box; // Ensures padding is included in the input's total width
+                    border-radius: 10px;
+                    background-color: #F9FBFF;
+                    border: none;
+                  }
+                  
+                  .search-icon {
+                    position: absolute;
+                    left: 10px;  // Position the icon inside the input
+                    top: 50%;
+                    transform: translateY(-50%);
+                    font-size: 1.2rem;
+                    color: #888;
+                  }
                 }
-            }
+              }
+              
+
         }
 
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
