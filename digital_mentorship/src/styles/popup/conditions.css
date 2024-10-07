@@ -6,14 +6,43 @@
   transform: translate(-50%, -50%);
   background-color: #fff;
   border-radius: 8px;
-  padding: 20px;
-  width: 90%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   max-width: 500px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
+.conditions h3 {
+  -webkit-text-decoration: underlineW;
+          text-decoration: underlineW;
+  font-weight: bolder;
+}
+.conditions ul li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.conditions label {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+.conditions input[type=checkbox] {
+  margin-right: 10px;
+}
+.conditions .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 18px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
 
-/* Add background overlay behind the popup */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -22,34 +51,4 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
-}
-
-/* Add some space between each list item */
-.conditions ul li {
-  margin-bottom: 10px;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-/* Style the checkbox */
-.conditions label {
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-  font-size: 14px;
-}
-
-.conditions input[type=checkbox] {
-  margin-right: 10px;
-}
-
-/* Optional close button */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 18px;
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
 }/*# sourceMappingURL=conditions.css.map */

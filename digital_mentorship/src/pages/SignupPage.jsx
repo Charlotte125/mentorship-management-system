@@ -18,7 +18,10 @@ const SignupPage = () => {
             <button type="button">Sign up</button>
         </form>
        <div className="lower-text">
-       <p>Have an account ?  <span>Sign in </span>  </p>
+       <div className="link">
+          <p>Have an account?</p>
+          <a href="/">Sign in</a>
+        </div>
        </div>
     </div>
   </div>

@@ -13,7 +13,10 @@ const ForgotpasswordPage = () => {
         <button type="button">Reset</button>
     </form>
     <div className="lower-text">
-      <p>Have an account ?<span>Sign in</span> </p>
+      <div className="link">
+          <p>Have an accoount?</p>
+          <a href="/">signin </a>
+        </div>
     </div>
    </div>
   </div>

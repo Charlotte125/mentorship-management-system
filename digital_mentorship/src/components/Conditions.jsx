@@ -1,17 +1,17 @@
 import React from 'react';
-import "../../styles/main/main.css";
-import "../../styles/popup/conditions.css";
+import "../styles/main/main.css";
+import "../styles/popup/conditions.css";
 
 const Conditions = ({ closePopup }) => {
   return (
     <>
-      {/* Overlay to cover background */}
+     
       <div className="popup-overlay" onClick={closePopup}></div>
 
-      {/* Popup Content */}
       <div className="conditions">
         <button className="close-btn" onClick={closePopup}>X</button>
         <h3>Terms and Conditions for Online Therapy Services</h3>
+       
         <ul>
           <li>As the therapist, you agree to provide online therapy sessions via secure platforms (video calls or chat). You are responsible for maintaining a professional standard of care throughout the consultation.</li>
           <li>You agree to maintain confidentiality of all client information, except when legally required to disclose (e.g., imminent harm to self or others). You must use secure methods to store and transmit client data.</li>

@@ -1,15 +1,18 @@
 .table-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  width: 100%;
+  padding: 0 20px;
 }
 .table-container table {
   border: 1px solid rgba(226, 236, 249, 0.5019607843);
   padding: 30px;
   border-radius: 30px;
-  width: 65%;
-  height: 812px;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
+  height: auto;
 }
 .table-container table .table-header {
   display: flex;
@@ -24,11 +27,10 @@
 .table-container table .table-header .search-bar .input-container {
   position: relative;
   width: 100%;
-  padding: 10px;
 }
 .table-container table .table-header .search-bar .input-container input {
   width: 100%;
-  padding: 10px 40px 10px 40px;
+  padding: 10px 40px;
   box-sizing: border-box;
   border-radius: 10px;
   background-color: #F9FBFF;

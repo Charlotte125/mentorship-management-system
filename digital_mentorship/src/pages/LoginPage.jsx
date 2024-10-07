@@ -14,10 +14,11 @@ const LoginPage = () => {
           <button type="button">Login </button>
         </form>
         <div className="lower-text">
-          <p> Forgot Password ?</p>
-          <p>
-            Don't have an account ? <span>Sign up Now</span>{" "}
-          </p>
+        <a href="/reset-password">Forgot password?</a>
+          <div className="link">
+          <p>Don't have an account?</p>
+          <a href="/sign-up">Sign up.</a>
+        </div>
         </div>
       </div>
     </div>
