@@ -8,7 +8,7 @@ const LoginPage = () => {
       <div className="contents">
         <h2>Login</h2>
         <form>
-          <input type="email" placeholder="Email address"></input>
+          
           <input type="text" placeholder="Identification number"></input>
           <input type="password" placeholder="password"></input>
           <button type="button">Login </button>
