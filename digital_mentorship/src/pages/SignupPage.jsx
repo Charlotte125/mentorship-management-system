@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import api, { API_URL } from '../../src/api';
 import "../styles/main/main.css";
 
 const SignupPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -14,6 +16,9 @@ const SignupPage = () => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
+  const [popupType, setPopupType] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,28 +33,48 @@ const SignupPage = () => {
     setIsLoading(true);
 
     try {
-      console.log("Form Data:", formData); 
-
       const response = await api.post(`${API_URL}api/register/`, formData);
       if (response.status === 201) {
+        setPopupMessage('Registration successful');
+        setPopupType('success');
         toast.success('Registration successful!');
+
+        // Show success message, then redirect after 2 seconds
+        setShowPopup(true);
+        setTimeout(() => {
+          navigate('/choice');
+        }, 2000);
       }
     } catch (error) {
-      console.error("Error:", error); 
-      setIsLoading(false);
       if (error.response && error.response.data) {
-        console.error("Error Data:", error.response.data); 
+        setPopupMessage(error.response.data.message || 'Registration failed. Please try again.');
+        setPopupType('error');
         toast.error(error.response.data.message || 'Registration failed. Please try again.');
       } else {
+        setPopupMessage('There was an error. Please contact support.');
+        setPopupType('error');
         toast.error('There was an error. Please contact support.');
       }
+      setShowPopup(true);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
   return (
     <div className="container">
+      <div className="popups">
+        {showPopup && (
+          <div className={`popup ${popupType}`}>
+            <span className="close-icon" onClick={closePopup}>×</span>
+            <p>{popupMessage}</p>
+          </div>
+        )}
+      </div>
       <div className="contents">
         <form onSubmit={handleSubmit}>
           <h2>Register</h2>

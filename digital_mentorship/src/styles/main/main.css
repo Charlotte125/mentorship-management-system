@@ -24,7 +24,12 @@ h2 {
   text-align: center;
 }
 
-p, h2, h1, label, h3, a {
+p,
+h2,
+h1,
+label,
+h3,
+a {
   font-family: Palatino;
 }
 
@@ -43,6 +48,51 @@ p, h2, h1, label, h3, a {
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+.container .popups {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  text-align: center;
+  z-index: 1000;
+  width: 15%;
+}
+.container .popups .close-icon {
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.container .popups .success {
+  background-color: #42a045;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #42a045;
+}
+.container .popups .success p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container .popups .error {
+  background-color: rgb(230, 31, 31);
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid rgb(230, 31, 31);
+}
+.container .popups .error p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container .popups button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 .container h2 {
   font-weight: bold;

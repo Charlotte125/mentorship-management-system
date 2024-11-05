@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import TherapistLoginPage from "./pages/therapist/TherapistLoginPage";
 import TherapistSignupPage from "./pages/therapist/TherapistSignupPage";
 import Chat from "./pages/Chat";
+import Choice from "./pages/Choice";
 
 
 
@@ -23,6 +24,8 @@ function Main() {
         <Route path="/therapist_login" element={<TherapistLoginPage />} />
         <Route path="/therapist_signup" element={<TherapistSignupPage />} />
         <Route path="/chat-room" element={<Chat />} />
+        <Route path="/choice" element={<Choice/>} />
+        
       </Routes>
       <div>
 
