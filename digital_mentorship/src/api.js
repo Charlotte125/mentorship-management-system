@@ -15,12 +15,13 @@
 
 
 import axios from "axios";
-import { useEffect, useState } from "react";
-export const MAX_FILE_SIZE = 12 * 1024 * 1024; // 12 MB in bytes
 
-export const API_URL = ' http://127.0.0.1:8000/';
+export const MAX_FILE_SIZE = 12 * 1024 * 1024; 
+
+export const API_URL = 'http://127.0.0.1:8000/';
+
 export const AuthClientId = process.env.REACT_APP_MS_CLIENT_ID
-export const Auth_CompStaffing_Tenant = process.env.REACT_APP_MS_COMPSTAFIFNG_TENANT
+
 export const Auth_Ms_redirectUri = process.env.REACT_APP_MS_REDIRECT_URL
 export const TINYEMCE_API_KEY = process.env.REACT_APP_TINYEMCE_API_KEY
 const api = axios.create({

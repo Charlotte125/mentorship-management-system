@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-// import api, { API_URL } from '../../../api'; // Adjust the import based on your project structure
-import api,{API_URL} from '../../src/api';
+import api, { API_URL } from '../../src/api';
 import "../styles/main/main.css";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    id: '',
+    first_name: '',
+    last_name: '',
+    student_id: '', 
     department: '',
-    email: '',
+    email_address: '',
     password: '',
   });
-  
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {
@@ -25,26 +24,21 @@ const SignupPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await api.post(`${API_URL}register/`, formData);
+      console.log("Form Data:", formData); 
+
+      const response = await api.post(`${API_URL}api/register/`, formData);
       if (response.status === 201) {
         toast.success('Registration successful!');
-        // Optionally redirect or reset form
-        setFormData({
-          firstName: '',
-          lastName: '',
-          id: '',
-          department: '',
-          email: '',
-          password: '',
-        });
       }
     } catch (error) {
+      console.error("Error:", error); 
       setIsLoading(false);
       if (error.response && error.response.data) {
+        console.error("Error Data:", error.response.data); 
         toast.error(error.response.data.message || 'Registration failed. Please try again.');
       } else {
         toast.error('There was an error. Please contact support.');
@@ -61,25 +55,25 @@ const SignupPage = () => {
           <h2>Register</h2>
           <input 
             type="text" 
-            name="firstName" 
+            name="first_name" 
             placeholder="First name" 
-            value={formData.firstName} 
+            value={formData.first_name} 
             onChange={handleInputChange} 
             required 
           />
           <input 
             type="text" 
-            name="lastName" 
+            name="last_name" 
             placeholder="Last name" 
-            value={formData.lastName} 
+            value={formData.last_name} 
             onChange={handleInputChange} 
             required 
           />
           <input 
-            type="number" 
-            name="id" 
-            placeholder="Id" 
-            value={formData.id} 
+            type="text" 
+            name="student_id" 
+            placeholder="Student ID" 
+            value={formData.student_id} 
             onChange={handleInputChange} 
             required 
           />
@@ -93,9 +87,9 @@ const SignupPage = () => {
           />
           <input 
             type="email" 
-            name="email" 
+            name="email_address" 
             placeholder="Email" 
-            value={formData.email} 
+            value={formData.email_address} 
             onChange={handleInputChange} 
             required 
           />
