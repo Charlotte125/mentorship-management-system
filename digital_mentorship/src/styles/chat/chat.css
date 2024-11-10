@@ -1,0 +1,36 @@
+.chat-room {
+  display: flex;
+}
+.chat-room .side_bar {
+  width: 202px;
+  height: 100vh;
+  background-color: #F8F9FD;
+  padding: 12px;
+}
+.chat-room .side_bar .icon_text {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.chat-room .side_bar .icon_text:hover {
+  background-color: #e0e7ff;
+}
+.chat-room .side_bar .icon_text.active {
+  background-color: #3d64fd;
+  color: #ffffff;
+}
+.chat-room .side_bar .icon_text.active p {
+  color: #ffffff;
+}
+.chat-room .side_bar .icon_text.active svg {
+  color: #ffffff;
+}
+.chat-room .side_bar .logo_image {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}/*# sourceMappingURL=chat.css.map */

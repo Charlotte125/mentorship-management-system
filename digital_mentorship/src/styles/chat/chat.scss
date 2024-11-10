@@ -1,0 +1,44 @@
+.chat-room{
+    display: flex;
+    .side_bar {
+        width: 202px;
+        height: 100vh;
+        background-color: #F8F9FD;
+        padding: 12px;
+  
+        .icon_text {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 16px;
+          padding: 10px;
+          cursor: pointer;
+          border-radius: 8px;
+        
+          &:hover {
+            background-color: #e0e7ff;
+          }
+        
+          &.active {
+            background-color: #3d64fd;
+            color: #ffffff;
+        
+            p {
+              color: #ffffff;
+            }
+        
+            svg {
+              color: #ffffff;
+            }
+          }
+        }
+        
+  
+        .logo_image {
+          display: flex;
+          align-items: center;
+          margin-bottom: 20px;
+        }
+      }
+
+}

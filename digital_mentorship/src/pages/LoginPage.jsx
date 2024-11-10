@@ -19,14 +19,14 @@ const LoginPage = () => {
         headers: { "Content-Type": "application/json" },
       });
   
-      console.log("Response status:", response.status); // check status
-      console.log("Response text:", await response.text()); // check response body
+      console.log("Response status:", response.status); 
+      console.log("Response text:", await response.text()); 
   
       if (response.status === 200) {
         const data = await response.json();
         console.log("Response data:", data);
   
-        if (data.password === password) {  // Update if hashed password in backend
+        if (data.password === password) {  
           setError(""); 
           setSuccessMessage("Login successful!");
         } else {
