@@ -1,69 +1,136 @@
-.Dashboard {
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.therapist_dashboard .dashboard {
   display: flex;
-  gap: 40px;
+}
+.therapist_dashboard .dashboard .side_bar {
+  width: 202px;
   height: 100vh;
+  background-color: #F8F9FD;
+  padding: 12px;
 }
-.Dashboard .col {
-  flex-grow: 1;
+.therapist_dashboard .dashboard .side_bar .icon_text {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
 }
-.Dashboard .col .row {
+.therapist_dashboard .dashboard .side_bar .icon_text:hover {
+  background-color: #e0e7ff;
+}
+.therapist_dashboard .dashboard .side_bar .icon_text.active {
+  background-color: #3d64fd;
+  color: #ffffff;
+}
+.therapist_dashboard .dashboard .side_bar .icon_text.active p {
+  color: #ffffff;
+}
+.therapist_dashboard .dashboard .side_bar .icon_text.active svg {
+  color: #ffffff;
+}
+.therapist_dashboard .dashboard .side_bar .logo_image {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.therapist_dashboard .dashboard .therapist_contents {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 50px;
 }
-.Dashboard .col .row .row-1 {
-  padding: 15px;
+.therapist_dashboard .dashboard .therapist_contents .header {
   display: flex;
+  padding: 15px;
+  width: 100%;
+  height: 96px;
   justify-content: space-between;
   align-items: center;
-  background-color: #FFFFFF;
-  width: calc(100% - 80px);
-  box-sizing: border-box;
-  border-bottom: 1px solid #AFB8CF;
+  position: relative;
 }
-.Dashboard .col .row .row-1 .text-line {
+.therapist_dashboard .dashboard .therapist_contents .header .header_text {
   display: flex;
-  gap: 12px;
-}
-.Dashboard .col .row .row-1 .text-line p {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
-.Dashboard .col .row .row-1 .text-line span {
+.therapist_dashboard .dashboard .therapist_contents .header .header_text h3 {
+  color: #636363;
+}
+.therapist_dashboard .dashboard .therapist_contents .header .header_text span {
   color: #3D64FD;
 }
-.Dashboard .col .row .row-1 .img-text {
+.therapist_dashboard .dashboard .therapist_contents .header .profile {
   display: flex;
-  gap: 8px;
+  gap: 5px;
 }
-.Dashboard .col .row .row-1 .img-text .text {
+.therapist_dashboard .dashboard .therapist_contents .header .profile .profile_text p {
+  color: #636363;
+}
+.therapist_dashboard .dashboard .therapist_contents .header .profile .profile_text span {
+  color: #9FA7BE;
+}
+.therapist_dashboard .dashboard .therapist_contents .header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #E0E0E0;
+  margin-top: 10px;
+}
+.therapist_dashboard .dashboard .therapist_contents .lower_section {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  margin-inline: 25%;
+  margin-top: 50px;
+  gap: 24px;
+  background-color: #FFFFFF;
+  box-shadow: rgba(226, 236, 249, 0.5019607843);
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 30px;
+  background-color: rgba(226, 236, 249, 0.5019607843);
+}
+.therapist_dashboard .dashboard .therapist_contents .lower_section p {
+  font-size: 54px;
+  margin-left: 32px;
+  color: rgba(148, 129, 129, 0.8470588235);
+  font-weight: lighter;
+}
+.therapist_dashboard .dashboard .therapist_contents .lower_section .row_1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.therapist_dashboard .dashboard .therapist_contents .lower_section .row_1 .circle_text {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.Dashboard .col .row .row-1 .img-text .img img {
-  border-radius: 50%;
+.therapist_dashboard .dashboard .therapist_contents .lower_section .row_1 .circle_text span {
+  font-weight: bolder;
+  font-size: 32px;
 }
-.Dashboard .col .row .lower-section {
-  padding-inline: 0;
+.therapist_dashboard .dashboard .therapist_contents .lower_section .row_1 .circle_text p {
+  color: #ACACAC;
+  font-size: 14px;
 }
-.Dashboard .col .row .lower-section .row-2 {
+.therapist_dashboard .dashboard .therapist_contents .lower_section .row_1 .circle_1 {
   display: flex;
-  justify-content: space-between;
-  border-radius: 30px;
-  padding: 20px;
-  background-color: #FFFFFF;
-  border: 1px solid #F0F0F0;
-  width: 100%;
-  box-shadow: 0px 4px 10px rgba(226, 236, 249, 0.5019607843);
-}
-.Dashboard .col .row .lower-section .row-2 .col {
-  display: flex;
-  gap: 8px;
   justify-content: center;
   align-items: center;
-}
-.Dashboard .col .row .lower-section .row-2 .col img {
-  width: 42px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #DCE6FF;
+  overflow: hidden;
 }/*# sourceMappingURL=dashboard.css.map */

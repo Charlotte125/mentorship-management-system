@@ -1,39 +1,52 @@
 import React, { useState } from "react";
 import "../styles/main/main.css";
 
-
 const LoginPage = () => {
   const [student_id, setStudentId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState(""); 
 
   const handleLogin = async () => {
-    // Check if fields are empty
     if (!student_id || !password) {
       setError("Both fields are required.");
       return;
     }
-    
+  
     try {
-      // Example of making a login API call
-      const response = await fetch(`/registration/${student_id}/`, {
-        method: "POST",
+      const response = await fetch(`registration/${student_id}/`, {
+        method: "GET",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
       });
-      
-      if (response.ok) {
-        // Handle successful login
-        setError(""); // Clear any existing errors
-        // Redirect or other logic here
+  
+      console.log("Response status:", response.status); // check status
+      console.log("Response text:", await response.text()); // check response body
+  
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log("Response data:", data);
+  
+        if (data.password === password) {  // Update if hashed password in backend
+          setError(""); 
+          setSuccessMessage("Login successful!");
+        } else {
+          setSuccessMessage(""); 
+          setError("Incorrect password. Please try again.");
+        }
+      } else if (response.status === 404) {
+        setSuccessMessage("");
+        setError("User not found. Please check your ID.");
       } else {
-        // Handle errors
-        setError("Login failed. Check your credentials.");
+        setSuccessMessage(""); 
+        setError("Login failed. Please check your credentials.");
       }
     } catch (error) {
+      console.error("Fetch error:", error); 
+      setSuccessMessage(""); 
       setError("An error occurred. Please try again.");
     }
   };
+  
 
   return (
     <div className="container">
@@ -54,6 +67,7 @@ const LoginPage = () => {
           />
           <button type="button" onClick={handleLogin}>Login</button>
           {error && <p className="error-message">{error}</p>}
+          {successMessage && <p className="success-message">{successMessage}</p>}
         </form>
         <div className="lower-text">
           <a href="/reset-password">Forgot password?</a>

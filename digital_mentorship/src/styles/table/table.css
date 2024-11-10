@@ -2,17 +2,38 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 90%;
   padding: 0 20px;
+  margin-inline: 50px;
 }
 .table-container table {
   border: 1px solid rgba(226, 236, 249, 0.5019607843);
   padding: 30px;
   border-radius: 30px;
-  width: 100%;
+  width: 90%;
   box-sizing: border-box;
-  height: 100%;
   height: auto;
+  margin-top: 80px;
+  box-shadow: 0 4px 8px rgba(226, 236, 249, 0.5);
+  position: relative;
+}
+.table-container table .pagination {
+  display: flex;
+  position: absolute;
+  right: 0;
+  gap: 8px;
+}
+.table-container table .pagination button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: 1px solid rgba(226, 236, 249, 0.5019607843);
+  background-color: #EEEEEE;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+.table-container table .pagination button:hover {
+  background-color: #3D64FD;
 }
 .table-container table .table-header {
   display: flex;
@@ -43,4 +64,23 @@
   transform: translateY(-50%);
   font-size: 1.2rem;
   color: #888;
+}
+.table-container table tbody tr:last-child {
+  border-bottom: none;
+}
+.table-container table th,
+.table-container table td {
+  text-align: center;
+  padding: 15px 20px;
+}
+.table-container table th {
+  color: #888;
+}
+.table-container table h1 {
+  color: black;
+}
+.table-container table td {
+  border-bottom: 1px solid #EEEEEE;
+  padding-bottom: 8px;
+  padding: 40px;
 }/*# sourceMappingURL=table.css.map */

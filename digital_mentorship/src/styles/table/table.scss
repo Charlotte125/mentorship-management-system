@@ -2,24 +2,51 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;  // Set table to take full width
-  padding: 0 20px;  // Add padding to avoid overflowing
-  
+  width: 90%;
+  padding: 0 20px;
+  margin-inline: 50px;
+
   table {
     border: 1px solid #E2ECF980;
     padding: 30px;
     border-radius: 30px;
-    width: 100%;  
-    box-sizing: border-box; 
-    height: 100%;
-  
+    width: 90%;
+    box-sizing: border-box;
     height: auto;
+    margin-top: 80px;
+    box-shadow: 0 4px 8px rgba(226, 236, 249, 0.5);
+    position: relative;
+   
+
+
+    .pagination {
+      display: flex;
+      position: absolute;
+      right: 0;
+      gap: 8px;
+
+      button {
+        padding: 5px 10px;
+        margin: 0 5px;
+        border: 1px solid #E2ECF980;
+        background-color: #EEEEEE;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: #3D64FD;
+        }}
+
+    }
 
     .table-header {
       display: flex;
       justify-content: space-between;
       margin-bottom: 32px;
+      
 
+     
       .search-bar {
         display: flex;
         align-items: center;
@@ -31,7 +58,7 @@
 
           input {
             width: 100%;
-            padding: 10px 40px;  // Adjust padding
+            padding: 10px 40px;
             box-sizing: border-box;
             border-radius: 10px;
             background-color: #F9FBFF;
@@ -49,5 +76,33 @@
         }
       }
     }
+
+
+
+
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    th,
+    td {
+      text-align: center;
+      padding: 15px 20px;
+    }
+    th{
+      color: #888;
+    }
+    h1{
+      color: black;
+    }
+
+    td {
+      border-bottom: 1px solid #EEEEEE;
+      padding-bottom: 8px;
+      padding: 40px;
+    }
+
+
   }
 }
