@@ -145,8 +145,10 @@ form .field {
   display: flex;
   gap: 5px;
 }
+.lower-text .link p {
+  color: rgba(30, 30, 30, 0.4);
+}
 
-/* In your main.css */
 .loading-icon {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-left-color: #FFFFFF;

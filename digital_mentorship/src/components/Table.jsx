@@ -3,6 +3,7 @@ import axios from "axios";
 import "../styles/table/table.css"; 
 import { FiSearch } from "react-icons/fi";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
+import { API_URL } from "../api";
 
 const CustomerTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,7 +18,7 @@ const CustomerTable = () => {
   
   const fetchData = async () => {
     try {
-      const response = await axios.get("/api/registrations/");
+      const response = await axios.get(`${API_URL}api/registrations/`);
       setData(response.data);
       setFilteredData(response.data); 
       setLoading(false); 

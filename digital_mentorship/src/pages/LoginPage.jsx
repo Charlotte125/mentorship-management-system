@@ -1,52 +1,40 @@
 import React, { useState } from "react";
 import "../styles/main/main.css";
+import { API_URL } from "../api";
 
 const LoginPage = () => {
   const [student_id, setStudentId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState(""); 
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleLogin = async () => {
     if (!student_id || !password) {
       setError("Both fields are required.");
       return;
     }
-  
+
     try {
-      const response = await fetch(`registration/${student_id}/`, {
+      const response = await fetch(`${API_URL}registrations/${student_id}/`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
   
-      console.log("Response status:", response.status); 
-      console.log("Response text:", await response.text()); 
-  
-      if (response.status === 200) {
-        const data = await response.json();
-        console.log("Response data:", data);
-  
-        if (data.password === password) {  
-          setError(""); 
-          setSuccessMessage("Login successful!");
-        } else {
-          setSuccessMessage(""); 
-          setError("Incorrect password. Please try again.");
-        }
-      } else if (response.status === 404) {
-        setSuccessMessage("");
-        setError("User not found. Please check your ID.");
-      } else {
-        setSuccessMessage(""); 
-        setError("Login failed. Please check your credentials.");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+  
+      const data = await   
+   response.json();
+      console.log("Response data:", data);   
+  
+  
+      // ... handle login success or failure based on data
     } catch (error) {
-      console.error("Fetch error:", error); 
-      setSuccessMessage(""); 
+      console.error("Error fetching data:", error);
       setError("An error occurred. Please try again.");
     }
   };
-  
 
   return (
     <div className="container">
@@ -65,7 +53,9 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="button" onClick={handleLogin}>Login</button>
+          <button type="button" onClick={handleLogin}>
+            Login
+          </button>
           {error && <p className="error-message">{error}</p>}
           {successMessage && <p className="success-message">{successMessage}</p>}
         </form>

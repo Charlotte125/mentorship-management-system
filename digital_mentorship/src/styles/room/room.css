@@ -1,0 +1,67 @@
+/* App.css */
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  margin: 0;
+}
+
+.app-container {
+  max-width: 500px;
+  width: 100%;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.room-selection,
+.chat-room-container {
+  text-align: center;
+}
+.room-selection input,
+.chat-room-container input {
+  padding: 10px;
+  width: calc(100% - 22px);
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.room-selection button,
+.chat-room-container button {
+  padding: 10px;
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.room-selection :hover,
+.chat-room-container :hover {
+  background: #0056b3;
+}
+.room-selection .chat-messages,
+.chat-room-container .chat-messages {
+  height: 300px;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.room-selection .chat-messages .chat-message,
+.chat-room-container .chat-messages .chat-message {
+  padding: 5px;
+  background: #e1f5fe;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+.room-selection .chat-messages .chat-input-container,
+.chat-room-container .chat-messages .chat-input-container {
+  display: flex;
+  gap: 10px;
+}/*# sourceMappingURL=room.css.map */
