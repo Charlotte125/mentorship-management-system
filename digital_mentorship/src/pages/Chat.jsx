@@ -9,24 +9,36 @@ import { useNavigate } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import image from "../../src/img/image.svg";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { GoSmiley } from "react-icons/go";
+import { HiOutlineMicrophone } from "react-icons/hi2";
+import { AiOutlineLike } from "react-icons/ai";
 
-// Data arrays
-const sender = [
-  { text: "Hi, I’m feeling really overwhelmed with schoolwork lately. I don’t know how to manage it all.", time: "2024-11-12 09:00:00" },
-  { text: "Hi there! I’m sorry to hear you’re feeling this way. Can you tell me more about what’s been stressing you out the most?", time: "2024-11-12 12:30:00" },
+const Messages = [
+  {
+    text1:
+      "Hi, I’m feeling really overwhelmed with schoolwork lately.  I don’t know how to manage it all.",
+    time1: "2024-11-12 09:00:00",
+    reply1:
+      "Hi there! I’m sorry to hear you’re  feeling this way. Can you tell me more about  what’s been stressing you out the most?",
+    time2: "2024-11-12 12:30:00",
+  },
+  {
+    text2:
+      "Hi there! I’m sorry to hear you’re feeling this way. Can you tell me more about what’s been stressing you out the most?",
+    time3: "2024-11-12 12:45:00",
+
+    reply2:
+      "Maybe you could set a schedule for yourself to make things more manageable. What do you think?",
+    time4: "2024-11-12 09:15:00",
+  },
 ];
 
-const reply = [
-  { reply: "I understand! It’s tough to juggle everything. Have you tried breaking it down into smaller tasks?", time: "2024-11-12 09:15:00" },
-  { reply: "Maybe you could set a schedule for yourself to make things more manageable. What do you think?", time: "2024-11-12 12:45:00" },
-];
-
-// Dummy data
 const dummyData = [
   {
     first_name: "Thierry",
     last_name: "Rugamba",
-    random_text: "Things have been tense. My parents and I are not getting along, and it’s been really stressful.",
+    random_text:
+      "Things have been tense. My parents and I are not getting along, and it’s been really stressful.",
     icon: <CiStar />,
     date: "2024-11-12",
     time: "14:30",
@@ -35,7 +47,8 @@ const dummyData = [
   {
     first_name: "Gloria",
     last_name: "Keza",
-    random_text: "Honestly, not very good. I’ve been feeling really down about myself and my abilities.",
+    random_text:
+      "Honestly, not very good. I’ve been feeling really down about myself and my abilities.",
     icon: <CiStar />,
     date: "2024-11-11",
     time: "09:15",
@@ -44,7 +57,8 @@ const dummyData = [
   {
     first_name: "Patrick",
     last_name: "Nyirinkindi",
-    random_text: "Hey! Did you finish the Hi-FI wireframes for flora app design?",
+    random_text:
+      "Hey! Did you finish the Hi-FI wireframes for flora app design?",
     icon: <CiStar />,
     date: "2024-11-10",
     time: "17:45",
@@ -53,7 +67,8 @@ const dummyData = [
   {
     first_name: "Aline",
     last_name: "Uwera",
-    random_text: "Not great. I feel like I’m drifting apart from my friends, and I’m not sure why.",
+    random_text:
+      "Not great. I feel like I’m drifting apart from my friends, and I’m not sure why.",
     icon: <CiStar />,
     date: "2024-11-09",
     time: "12:00",
@@ -62,7 +77,8 @@ const dummyData = [
   {
     first_name: "Ishimwe",
     last_name: "Uwera",
-    random_text: "Not great. I feel like I’m drifting apart from my friends, and I’m not sure why.",
+    random_text:
+      "Not great. I feel like I’m drifting apart from my friends, and I’m not sure why.",
     icon: <CiStar />,
     date: "2024-11-09",
     time: "12:00",
@@ -199,26 +215,58 @@ const Chat = () => {
                 <BsThreeDotsVertical id="dots" />
               </div>
             </div>
-            {/* Messages container */}
+
             <div className="messages">
               <p>Today | 6:30pm</p>
               <div className="text">
-                {/* Display sender messages */}
                 <div className="sender">
-                  {sender.map((item, index) => (
+                  {Messages.map((item, index) => (
                     <div className="text_time" key={index}>
-                      <p id="sender_message">{item.text} </p>
-                      <p > {item.time}</p>
+                      {item.text1 && (
+                        <>
+                          <p id="sender_message">{item.text1}</p>
+                          <p id="sender_time">{item.time1}</p>
+                        </>
+                      )}
+                      {item.reply1 && (
+                        <>
+                          <p id="reply_message">{item.reply1}</p>
+                          <p id="reply_time">{item.time2}</p>
+                        </>
+                      )}
                     </div>
                   ))}
                 </div>
-                {/* Display reply messages */}
+
                 <div className="reply">
-                  {reply.map((item, index) => (
+                  {Messages.map((item, index) => (
                     <div className="text_time" key={index}>
-                      <p>{item.reply} | {item.time}</p>
+                      {item.text2 && (
+                        <>
+                          <p id="text2">{item.text2}</p>
+                          <p id="time3"> {item.time3}</p>
+                        </>
+                      )}
+
+                      {item.reply2 && (
+                        <>
+                          <p id="reply2">{item.reply2}</p>
+                          <p id="time4">{item.time4}</p>
+                        </>
+                      )}
                     </div>
                   ))}
+                </div>
+              </div>
+
+              <div className="typing">
+                <div className="space">
+                  <GoSmiley />
+                  <input type="text" placeholder="Type your message here..." />
+                 <div className="text_icons">
+                 <HiOutlineMicrophone />
+                 <AiOutlineLike />
+                 </div>
                 </div>
               </div>
             </div>
