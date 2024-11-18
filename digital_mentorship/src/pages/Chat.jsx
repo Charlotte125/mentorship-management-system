@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCalendarDays } from "react-icons/fa6";
 import { FaRegMessage } from "react-icons/fa6";
 import { IoLogOutOutline } from "react-icons/io5";
@@ -16,10 +16,10 @@ import { AiOutlineLike } from "react-icons/ai";
 const Messages = [
   {
     text1:
-      "Hi, I’m feeling really overwhelmed with schoolwork lately.  I don’t know how to manage it all.",
+      "Hi, I’m feeling really overwhelmed with schoolwork lately. I don’t know how to manage it all.",
     time1: "2024-11-12 09:00:00",
     reply1:
-      "Hi there! I’m sorry to hear you’re  feeling this way. Can you tell me more about  what’s been stressing you out the most?",
+      "Hi there! I’m sorry to hear you’re feeling this way. Can you tell me more about what’s been stressing you out the most?",
     time2: "2024-11-12 12:30:00",
   },
   {
@@ -86,9 +86,13 @@ const dummyData = [
   },
 ];
 
+
+
 const Chat = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = useState("");
   const navigate = useNavigate();
 
   const handleItemClick = (index) => {
@@ -102,6 +106,64 @@ const Chat = () => {
     }
   };
 
+  useEffect(() => {
+    const socket = new WebSocket("ws://127.0.0.1:8000/ws/chat/");
+
+    socket.onopen = () => {
+      console.log("WebSocket connection established.");
+    };
+
+    socket.onmessage = (event) => {
+      console.log("Received message:", event.data); // Log received message
+      const data = JSON.parse(event.data);
+      if (data.message) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { text: data.message, sender: "server" }
+        ]);
+      } else {
+        console.warn("Received unexpected data:", data); // Handle unexpected data
+      }
+    };
+
+    socket.onerror = (error) => {
+      console.error("WebSocket error:", error); // Log WebSocket errors
+    };
+
+    socket.onclose = (event) => {
+      console.log("WebSocket connection closed:", event); // Log connection close
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
+  const handleSendMessage = () => {
+    if (inputValue.trim() !== "") {
+      // Log before sending message
+      console.log("Sending message:", inputValue);
+      
+      const socket = new WebSocket("ws://127.0.0.1:8000/ws/chat/");
+
+      socket.onopen = () => {
+        console.log("WebSocket open, sending message:", inputValue);
+        socket.send(JSON.stringify({ message: inputValue }));
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { text: inputValue, sender: "user" }
+        ]);
+        setInputValue("");
+      };
+
+      socket.onerror = (error) => {
+        console.error("Error sending message:", error); // Log error when sending
+      };
+    } else {
+      console.log("Input is empty, not sending message.");
+    }
+  };
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
@@ -111,6 +173,7 @@ const Chat = () => {
       .toLowerCase()
       .includes(searchTerm)
   );
+
 
   return (
     <div className="chat-room">
@@ -260,15 +323,30 @@ const Chat = () => {
               </div>
 
               <div className="typing">
-                <div className="space">
-                  <GoSmiley />
-                  <input type="text" placeholder="Type your message here..." />
-                 <div className="text_icons">
-                 <HiOutlineMicrophone />
-                 <AiOutlineLike />
-                 </div>
-                </div>
-              </div>
+  <div className="space">
+    <GoSmiley />
+    <input 
+      type="text" 
+      placeholder="Type your message here..." 
+      value={inputValue} 
+      onChange={(e) => setInputValue(e.target.value)} 
+      onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()} // Optional: Send on Enter key press
+    />
+    <button onClick={handleSendMessage}>Send</button>
+    <div className="text_icons">
+      <HiOutlineMicrophone />
+      <AiOutlineLike />
+    </div>
+  </div>
+</div>
+
+<div className="messages">
+  {messages.map((msg, index) => (
+    <div key={index} className={msg.sender === "user" ? "user-message" : "server-message"}>
+      <p>{msg.text}</p>
+    </div>
+  ))}
+</div>
             </div>
           </div>
         </div>

@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import "../styles/main/main.css";
 import { API_URL } from "../api";
+import { useNavigate } from "react-router-dom";  
 
 const LoginPage = () => {
   const [student_id, setStudentId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [userData, setUserData] = useState(null);  
+
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     if (!student_id || !password) {
@@ -15,21 +19,35 @@ const LoginPage = () => {
     }
 
     try {
-      const response = await fetch(`${API_URL}registrations/${student_id}/`, {
+    
+      const response = await fetch(`${API_URL}api/registrations/${student_id}/?password=${password}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
-  
+
+      
       if (!response.ok) {
+        const data = await response.json();
+        setError(data.error || "An error occurred. Please try again.");
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      const data = await response.json();
+      console.log("Response data:", data);
+
   
-      const data = await   
-   response.json();
-      console.log("Response data:", data);   
-  
-  
-      // ... handle login success or failure based on data
+      if (data && data.student_id) {  
+        setUserData(data);  
+        setSuccessMessage("Login successful! Redirecting...");
+
+      
+        setTimeout(() => {
+          navigate("/Choice");
+        }, 1000); 
+      } else {
+        setError("Invalid credentials or registration not found.");
+      }
+
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("An error occurred. Please try again.");
@@ -59,6 +77,17 @@ const LoginPage = () => {
           {error && <p className="error-message">{error}</p>}
           {successMessage && <p className="success-message">{successMessage}</p>}
         </form>
+
+    
+        {userData && (
+          <div className="user-info">
+            <h3>Welcome, {userData.first_name} {userData.last_name}</h3>
+            <p>Email: {userData.email_address}</p>
+            <p>Department: {userData.department}</p>
+            <p>Student ID: {userData.student_id}</p>
+          </div>
+        )}
+
         <div className="lower-text">
           <a href="/reset-password">Forgot password?</a>
           <div className="link">
