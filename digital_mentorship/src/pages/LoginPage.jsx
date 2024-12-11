@@ -17,42 +17,44 @@ const LoginPage = () => {
       setError("Both fields are required.");
       return;
     }
-
+  
     try {
-    
       const response = await fetch(`${API_URL}api/registrations/${student_id}/?password=${password}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
-
-      
+  
       if (!response.ok) {
         const data = await response.json();
         setError(data.error || "An error occurred. Please try again.");
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      const data = await response.json();
-      console.log("Response data:", data);
-
   
-      if (data && data.student_id) {  
-        setUserData(data);  
+      const data = await response.json();
+      if (data && data.student_id) {
+        setUserData(data);
         setSuccessMessage("Login successful! Redirecting...");
-
-      
+  
+        // Store login session in sessionStorage
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("userData", JSON.stringify(data));
+  
+        // Redirect to the Choice page
         setTimeout(() => {
           navigate("/Choice");
-        }, 1000); 
+        }, 1000);
       } else {
         setError("Invalid credentials or registration not found.");
       }
-
+  
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("An error occurred. Please try again.");
     }
   };
+  
+  
+  
 
   return (
     <div className="container">

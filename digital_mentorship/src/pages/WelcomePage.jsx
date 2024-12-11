@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";  // Import useNavigate hook
 import "../styles/main/main.css";
 import "../styles/welcomePage/welcome.css";
 import { FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom"; // Import Link
 
 const WelcomePage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if the user is already logged in
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+    if (isLoggedIn) {
+      // Redirect to login page if user is already logged in
+      navigate("/login");
+    }
+  }, [navigate]);
+
   return (
     <div className="container">
       <div className="welcome-page">
