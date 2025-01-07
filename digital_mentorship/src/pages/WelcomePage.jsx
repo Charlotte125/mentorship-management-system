@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";  // Import useNavigate hook
+import { useNavigate } from "react-router-dom";  
 import "../styles/main/main.css";
 import "../styles/welcomePage/welcome.css";
 import { FaChevronRight } from "react-icons/fa";
-import { Link } from "react-router-dom"; // Import Link
+import { Link } from "react-router-dom"; 
 
 const WelcomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if the user is already logged in
+  
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
     if (isLoggedIn) {
-      // Redirect to login page if user is already logged in
+      
       navigate("/login");
     }
   }, [navigate]);
@@ -34,7 +34,7 @@ const WelcomePage = () => {
           </div>
         </Link>
 
-        <Link to="/sign-up" className="icon-container staff-icon"> {/* Link for Staff */}
+        <Link to="/sign-up" className="icon-container staff-icon">
           <div className="staff">
             <h3>University Staff</h3>
             <p>Login in as a university staff</p>
@@ -46,7 +46,7 @@ const WelcomePage = () => {
           </div>
         </Link>
 
-        <Link to="/sign-up" className="icon-container student-icon"> {/* Link for Student */}
+        <Link to="/sign-up" className="icon-container student-icon"> 
           <div className="student">
             <h3>Student</h3>
             <p>Login in as a university student</p>

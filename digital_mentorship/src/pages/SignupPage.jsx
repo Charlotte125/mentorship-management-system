@@ -39,7 +39,7 @@ const SignupPage = () => {
         setPopupType('success');
         toast.success('Registration successful!');
 
-        // Show success message, then redirect after 2 seconds
+        
         setShowPopup(true);
         setTimeout(() => {
           navigate('/choice');
