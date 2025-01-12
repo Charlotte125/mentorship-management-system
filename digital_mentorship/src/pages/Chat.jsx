@@ -12,6 +12,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { GoSmiley } from "react-icons/go";
 import { HiOutlineMicrophone } from "react-icons/hi2";
 import { AiOutlineLike } from "react-icons/ai";
+import { io } from "socket.io-client";
 
 const Messages = [
   {
@@ -94,6 +95,16 @@ const Chat = () => {
   const navigate = useNavigate();
   const [socket, setSocket] = useState(null);
   const [activeMessageType, setActiveMessageType] = useState("All messages");
+  const [receivedMessage, setReceivedMessage] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const messageContainer = document.querySelector(".text");
+    if (messageContainer) {
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+  }, [messages]);
 
   const handleSendText = () => {
     if (inputValue.trim()) {
@@ -102,10 +113,28 @@ const Chat = () => {
         message: inputValue,
       };
 
-      // Add the new message to the messages state
       setMessages((prevMessages) => [...prevMessages, newMessage]);
-      setInputValue(""); // Clear input after sending
+      setInputValue("");
     }
+  };
+
+  useEffect(() => {
+    const socket = io("http://localhost:3000");
+
+    socket.on("message", (data) => {
+      console.log("Message from server:", data);
+      setReceivedMessage(data);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const sendMessage = () => {
+    const socket = io("http://localhost:3000");
+    socket.emit("clientMessage", message);
+    setMessage("");
   };
 
   const handleItemClick = (index) => {
@@ -129,15 +158,19 @@ const Chat = () => {
     newSocket.onmessage = (event) => {
       const receivedMessage = JSON.parse(event.data);
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-      console.log("Received message:", receivedMessage);
     };
 
     newSocket.onerror = (error) => {
       console.error("WebSocket error:", error);
+      setError(`WebSocket error: ${error.message}`);
     };
 
     newSocket.onclose = () => {
-      console.log("WebSocket connection closed.");
+      console.error("WebSocket connection closed. Retrying...");
+      setError("WebSocket connection closed unexpectedly. Reconnecting...");
+      setTimeout(() => {
+        setSocket(new WebSocket("ws://127.0.0.1:8000/ws/chat"));
+      }, 5000); // Retry in 5 seconds
     };
 
     setSocket(newSocket);
@@ -147,24 +180,19 @@ const Chat = () => {
     };
   }, []);
 
-  const handleSendMessage = (type) => {
-    if (inputValue.trim() !== "" && socket) {
+  const handleSendMessage = () => {
+    if (inputValue.trim() && socket) {
       const message = {
-        message_type: type || "All messages", // Default to "All messages"
+        message_type: "All messages",
         message: inputValue,
+        sender: "user",
       };
 
       if (socket.readyState === WebSocket.OPEN) {
-        try {
-          socket.send(JSON.stringify(message));
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { message: inputValue, message_type: type, sender: "user" },
-          ]);
-          setInputValue("");
-        } catch (error) {
-          console.error("Error sending message:", error);
-        }
+        socket.send(JSON.stringify(message));
+
+        setMessages((prevMessages) => [...prevMessages, message]);
+        setInputValue("");
       } else {
         console.error(
           "WebSocket is not open. Current state:",
@@ -177,6 +205,9 @@ const Chat = () => {
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
+  useEffect(() => {
+    console.log(messages);
+  }, [messages]);
 
   const filteredData = dummyData.filter((item) =>
     `${item.first_name} ${item.last_name} ${item.random_text}`
@@ -293,7 +324,7 @@ const Chat = () => {
                   <div
                     key={index}
                     className={
-                      msg.sender === "user" ? "user-message" : "client-message" // Handle client messages if needed
+                      msg.sender === "user" ? "user-message" : "client-message"
                     }
                   >
                     <div className="message-bubble">
@@ -310,8 +341,14 @@ const Chat = () => {
                     placeholder="Type your message here..."
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && handleSendText()}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleSendText();
+                      }
+                    }}
                   />
+
                   <button onClick={handleSendText}>Send Text</button>
                   <div className="text_icons">
                     <HiOutlineMicrophone />
@@ -325,10 +362,10 @@ const Chat = () => {
                     key={index}
                     className={
                       msg.sender === "user"
-                        ? "user-message"
+                        ? "user-message hidden"
                         : msg.message_type === "clients"
-                        ? "client-message"
-                        : "employee-message"
+                        ? "client-message hidden"
+                        : "employee-message hidden"
                     }
                   >
                     <p>
