@@ -1,0 +1,72 @@
+.chat-room {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
+  background-color: #f9fbff;
+}
+.chat-room .messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.chat-room .message-bubble {
+  background-color: #dce6ff;
+  border-radius: 20px;
+  padding: 10px 20px;
+  max-width: 60%;
+  word-wrap: break-word;
+  margin: 5px;
+}
+.chat-room .user-message {
+  align-self: flex-end;
+}
+.chat-room .user-message .message-bubble {
+  background-color: #3d64fd;
+  color: white;
+}
+.chat-room .client-message {
+  align-self: flex-start;
+}
+.chat-room .client-message .message-bubble {
+  background-color: #f0f0f0;
+  color: #333;
+}
+.chat-room .typing {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.chat-room .typing .space {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.chat-room .typing .space input {
+  border-radius: 20px;
+  width: 70%;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+.chat-room .typing .space button {
+  padding: 10px 20px;
+  background-color: #3d64fd;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.chat-room .typing .space .text_icons {
+  display: flex;
+  gap: 10px;
+  color: #888;
+}/*# sourceMappingURL=bubbles.css.map */

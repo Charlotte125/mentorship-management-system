@@ -86,14 +86,27 @@ const dummyData = [
   },
 ];
 
-
-
 const Chat = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const navigate = useNavigate();
+  const [socket, setSocket] = useState(null);
+  const [activeMessageType, setActiveMessageType] = useState("All messages");
+
+  const handleSendText = () => {
+    if (inputValue.trim()) {
+      const newMessage = {
+        sender: "user",
+        message: inputValue,
+      };
+
+      // Add the new message to the messages state
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      setInputValue(""); // Clear input after sending
+    }
+  };
 
   const handleItemClick = (index) => {
     setActiveIndex(index);
@@ -107,60 +120,57 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    const socket = new WebSocket("ws://127.0.0.1:8000/ws/chat/");
+    const newSocket = new WebSocket("ws://127.0.0.1:8000/ws/chat");
 
-    socket.onopen = () => {
-      console.log("WebSocket connection established.");
+    newSocket.onopen = () => {
+      console.log("WebSocket is open now.");
     };
 
-    socket.onmessage = (event) => {
-      console.log("Received message:", event.data); // Log received message
-      const data = JSON.parse(event.data);
-      if (data.message) {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { text: data.message, sender: "server" }
-        ]);
-      } else {
-        console.warn("Received unexpected data:", data); // Handle unexpected data
-      }
+    newSocket.onmessage = (event) => {
+      const receivedMessage = JSON.parse(event.data);
+      setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+      console.log("Received message:", receivedMessage);
     };
 
-    socket.onerror = (error) => {
-      console.error("WebSocket error:", error); // Log WebSocket errors
+    newSocket.onerror = (error) => {
+      console.error("WebSocket error:", error);
     };
 
-    socket.onclose = (event) => {
-      console.log("WebSocket connection closed:", event); // Log connection close
+    newSocket.onclose = () => {
+      console.log("WebSocket connection closed.");
     };
+
+    setSocket(newSocket);
 
     return () => {
-      socket.close();
+      newSocket.close();
     };
   }, []);
 
-  const handleSendMessage = () => {
-    if (inputValue.trim() !== "") {
-      // Log before sending message
-      console.log("Sending message:", inputValue);
-      
-      const socket = new WebSocket("ws://127.0.0.1:8000/ws/chat/");
-
-      socket.onopen = () => {
-        console.log("WebSocket open, sending message:", inputValue);
-        socket.send(JSON.stringify({ message: inputValue }));
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { text: inputValue, sender: "user" }
-        ]);
-        setInputValue("");
+  const handleSendMessage = (type) => {
+    if (inputValue.trim() !== "" && socket) {
+      const message = {
+        message_type: type || "All messages", // Default to "All messages"
+        message: inputValue,
       };
 
-      socket.onerror = (error) => {
-        console.error("Error sending message:", error); // Log error when sending
-      };
-    } else {
-      console.log("Input is empty, not sending message.");
+      if (socket.readyState === WebSocket.OPEN) {
+        try {
+          socket.send(JSON.stringify(message));
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { message: inputValue, message_type: type, sender: "user" },
+          ]);
+          setInputValue("");
+        } catch (error) {
+          console.error("Error sending message:", error);
+        }
+      } else {
+        console.error(
+          "WebSocket is not open. Current state:",
+          socket.readyState
+        );
+      }
     }
   };
 
@@ -173,7 +183,6 @@ const Chat = () => {
       .toLowerCase()
       .includes(searchTerm)
   );
-
 
   return (
     <div className="chat-room">
@@ -227,7 +236,6 @@ const Chat = () => {
               />
             </div>
           </div>
-
           <div className="profile">
             <div className="profile_text">
               <p>Iliza Charlotte</p>
@@ -240,7 +248,7 @@ const Chat = () => {
         </div>
         <div className="room">
           <div className="col_1">
-            <div className="messages">
+            <div className="inbox-messages">
               <h2>All messages</h2>
               <BsThreeDotsVertical />
             </div>
@@ -278,75 +286,61 @@ const Chat = () => {
                 <BsThreeDotsVertical id="dots" />
               </div>
             </div>
-
-            <div className="messages">
+            <div className="sender_receiver">
               <p>Today | 6:30pm</p>
               <div className="text">
-                <div className="sender">
-                  {Messages.map((item, index) => (
-                    <div className="text_time" key={index}>
-                      {item.text1 && (
-                        <>
-                          <p id="sender_message">{item.text1}</p>
-                          <p id="sender_time">{item.time1}</p>
-                        </>
-                      )}
-                      {item.reply1 && (
-                        <>
-                          <p id="reply_message">{item.reply1}</p>
-                          <p id="reply_time">{item.time2}</p>
-                        </>
-                      )}
+                {messages.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={
+                      msg.sender === "user" ? "user-message" : "client-message" // Handle client messages if needed
+                    }
+                  >
+                    <div className="message-bubble">
+                      <p>{msg.message}</p>
                     </div>
-                  ))}
-                </div>
-
-                <div className="reply">
-                  {Messages.map((item, index) => (
-                    <div className="text_time" key={index}>
-                      {item.text2 && (
-                        <>
-                          <p id="text2">{item.text2}</p>
-                          <p id="time3"> {item.time3}</p>
-                        </>
-                      )}
-
-                      {item.reply2 && (
-                        <>
-                          <p id="reply2">{item.reply2}</p>
-                          <p id="time4">{item.time4}</p>
-                        </>
-                      )}
-                    </div>
-                  ))}
+                  </div>
+                ))}
+              </div>
+              <div className="typing">
+                <div className="space">
+                  <GoSmiley />
+                  <input
+                    type="text"
+                    placeholder="Type your message here..."
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyPress={(e) => e.key === "Enter" && handleSendText()}
+                  />
+                  <button onClick={handleSendText}>Send Text</button>
+                  <div className="text_icons">
+                    <HiOutlineMicrophone />
+                    <AiOutlineLike />
+                  </div>
                 </div>
               </div>
-
-              <div className="typing">
-  <div className="space">
-    <GoSmiley />
-    <input 
-      type="text" 
-      placeholder="Type your message here..." 
-      value={inputValue} 
-      onChange={(e) => setInputValue(e.target.value)} 
-      onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()} // Optional: Send on Enter key press
-    />
-    <button onClick={handleSendMessage}>Send</button>
-    <div className="text_icons">
-      <HiOutlineMicrophone />
-      <AiOutlineLike />
-    </div>
-  </div>
-</div>
-
-<div className="messages">
-  {messages.map((msg, index) => (
-    <div key={index} className={msg.sender === "user" ? "user-message" : "server-message"}>
-      <p>{msg.text}</p>
-    </div>
-  ))}
-</div>
+              <div className="message">
+                {messages.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={
+                      msg.sender === "user"
+                        ? "user-message"
+                        : msg.message_type === "clients"
+                        ? "client-message"
+                        : "employee-message"
+                    }
+                  >
+                    <p>
+                      <strong>
+                        {msg.message_type === "clients" ? "Client" : "Employee"}
+                        :
+                      </strong>{" "}
+                      {msg.message}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

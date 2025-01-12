@@ -11,16 +11,17 @@ import TherapistSignupPage from "./pages/therapist/TherapistSignupPage";
 import Chat from "./pages/Chat";
 import Choice from "./pages/Choice";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import NewChat from "./pages/NewChat";
 
 
 
 function Main() {
   return (
     <BrowserRouter>
-     
+
       <Routes>
-        
-        <Route path="/" element={<WelcomePage />} />   
+
+        <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<Loginpage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/forgot" element={<ForgotpasswordPage />} />
@@ -28,15 +29,16 @@ function Main() {
         <Route path="/therapist_login" element={<TherapistLoginPage />} />
         <Route path="/therapist_signup" element={<TherapistSignupPage />} />
         <Route path="/chat-room" element={<Chat />} />
-        <Route path="/choice" element={<Choice/>} />
-        <Route path="/reset" element={<ResetPasswordPage/>} />
-        
+        <Route path="/choice" element={<Choice />} />
+        <Route path="/reset" element={<ResetPasswordPage />} />
+        <Route path="/new-chat" element= {<NewChat />} />
+
       </Routes>
       <div>
 
       </div>
     </BrowserRouter>
-    
+
   );
 }
 

@@ -115,13 +115,14 @@
   overflow-y: auto;
   border-right: 1px solid #ddd;
 }
-.chat-room .column .room .col_1 .messages {
+.chat-room .column .room .col_1 .inbox-messages {
   display: flex;
   align-items: center;
   width: 98%;
   padding: 20px;
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
+  background-color: red;
 }
 .chat-room .column .room .col_1 .chat-card {
   margin: 0;
@@ -164,13 +165,12 @@
   flex-direction: column;
 }
 .chat-room .column .room .col_2 {
-  width: 70%;
-  min-height: 100%;
-  background-color: #fff;
+  background-color: orange;
+  flex: 1;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  background-color: rgba(175, 184, 207, 0.1529411765);
+  gap: 10px;
 }
 .chat-room .column .room .col_2 .header {
   display: flex;
@@ -209,91 +209,30 @@
   border-radius: 6px;
   padding: 3px;
 }
-.chat-room .column .room .col_2 .messages p {
+.chat-room .column .room .col_2 .sender_receiver .message-bubble {
+  position: absolute;
+  right: 30px;
+  top: 200px;
+  background-color: #3D64FD;
+  border-top-right-radius: 32px;
+  border-top-left-radius: 32px;
+  border-bottom-left-radius: 32px;
+  padding: 10px 20px;
+  max-width: 80%;
+  word-wrap: break-word;
+  margin: 5px;
+  color: white;
+}
+.chat-room .column .room .col_2 .sender_receiver p {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 15px;
 }
-.chat-room .column .room .col_2 .messages .sender .text_time {
+.chat-room .column .room .col_2 .sender_receiver .typing {
   position: relative;
 }
-.chat-room .column .room .col_2 .messages .sender .text_time #sender_message {
-  position: absolute;
-  left: 30px;
-  width: 50%;
-  background-color: #DCE6FF;
-  border-top-right-radius: 32px;
-  border-top-left-radius: 32px;
-  border-bottom-right-radius: 32px;
-  padding: 16px 24px 16px 24px;
-}
-.chat-room .column .room .col_2 .messages .sender .text_time #sender_time {
-  position: absolute;
-  left: 30px;
-  top: 70px;
-  font-size: 14px;
-  color: #AFB8CF;
-}
-.chat-room .column .room .col_2 .messages .sender .text_time #reply_message {
-  position: absolute;
-  right: 30px;
-  top: 100px;
-  width: 50%;
-  background-color: #3D64FD;
-  border-top-right-radius: 32px;
-  border-top-left-radius: 32px;
-  border-bottom-left-radius: 32px;
-}
-.chat-room .column .room .col_2 .messages .sender .text_time #reply_time {
-  position: absolute;
-  top: 170px;
-  right: 30px;
-  font-size: 14px;
-  color: #AFB8CF;
-}
-.chat-room .column .room .col_2 .messages .reply .text_time {
-  position: relative;
-}
-.chat-room .column .room .col_2 .messages .reply .text_time #text2 {
-  position: absolute;
-  left: 30px;
-  top: 200px;
-  width: 50%;
-  background-color: #DCE6FF;
-  border-top-right-radius: 32px;
-  border-top-left-radius: 32px;
-  border-bottom-right-radius: 32px;
-  padding: 16px 24px 16px 24px;
-}
-.chat-room .column .room .col_2 .messages .reply .text_time #time3 {
-  position: absolute;
-  left: 30px;
-  top: 270px;
-  font-size: 14px;
-  color: #AFB8CF;
-}
-.chat-room .column .room .col_2 .messages .reply .text_time #reply2 {
-  position: absolute;
-  right: 30px;
-  top: 300px;
-  width: 50%;
-  background-color: #3D64FD;
-  border-top-right-radius: 32px;
-  border-top-left-radius: 32px;
-  border-bottom-left-radius: 32px;
-}
-.chat-room .column .room .col_2 .messages .reply .text_time #time4 {
-  position: absolute;
-  top: 370px;
-  right: 30px;
-  font-size: 14px;
-  color: #AFB8CF;
-}
-.chat-room .column .room .col_2 .messages .typing {
-  position: relative;
-}
-.chat-room .column .room .col_2 .messages .typing .space {
+.chat-room .column .room .col_2 .sender_receiver .typing .space {
   position: absolute;
   bottom: -780px;
   background-color: #FFFFFF;
@@ -303,14 +242,22 @@
   justify-content: space-between;
   align-items: center;
 }
-.chat-room .column .room .col_2 .messages .typing .space .text_icons {
+.chat-room .column .room .col_2 .sender_receiver .typing .space .text_icons {
   display: flex;
   gap: 10px;
+  color: #888;
 }
-.chat-room .column .room .col_2 .messages .typing .space input {
-  border-radius: 15px;
-  width: 40%;
-  padding: 10px;
+.chat-room .column .room .col_2 .sender_receiver .typing .space button {
+  padding: 10px 20px;
+  background-color: #3d64fd;
+  color: white;
   border: none;
-  background-color: #F8F9FD;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.chat-room .column .room .col_2 .sender_receiver .typing .space input {
+  border-radius: 20px;
+  width: 70%;
+  padding: 10px;
+  border: 1px solid #ddd;
 }/*# sourceMappingURL=chat.css.map */
