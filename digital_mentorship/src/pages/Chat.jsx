@@ -148,12 +148,6 @@ const Chat = () => {
     console.log(messages);
   }, [messages]);
 
-  const filteredData = dummyData.filter((item) =>
-    `${item.first_name} ${item.last_name} ${item.random_text}`
-      .toLowerCase()
-      .includes(searchTerm)
-  );
-
   const getTotalMessageCount = () => {
     return messageCounts.reduce((sum, item) => sum + item.message_count, 0);
   };
