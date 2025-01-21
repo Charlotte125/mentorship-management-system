@@ -12,6 +12,8 @@ import Chat from "./pages/Chat";
 import Choice from "./pages/Choice";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NewChat from "./pages/NewChat";
+import UniversityStaff from "./pages/staff/UniversityStaff";
+import UniversityLogin from "./pages/staff/UniveristyLogin";
 
 
 
@@ -32,6 +34,9 @@ function Main() {
         <Route path="/choice" element={<Choice />} />
         <Route path="/reset" element={<ResetPasswordPage />} />
         <Route path="/new-chat" element= {<NewChat />} />
+        <Route path="/staff" element= {<UniversityStaff />} />
+        <Route path="/univerity-login" element= {<UniversityLogin />} />
+
 
       </Routes>
       <div>

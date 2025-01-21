@@ -12,20 +12,28 @@ import tick from "../../src/img/tick.svg";
 import monitor from "../../src/img/monitor.svg";
 import Table from "../components/Table";
 import Skeleton from "../components/Skeleton";
+import { getLoggedInUser, getUserCount } from "../api";
 
 const Dashboard = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [userCount, setUserCount] = useState(0);
 
-  
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000); 
+    const loggedInUser = getLoggedInUser();
+    setUser(loggedInUser);
+
+    getUserCount().then((count) => setUserCount(count));
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  
   const handleItemClick = (index) => {
     setActiveIndex(index);
 
@@ -81,7 +89,6 @@ const Dashboard = () => {
         <div className="therapist_contents">
           {isLoading ? (
             <>
-        
               <div className="header">
                 <div className="header_text">
                   <Skeleton width="150px" height="30px" />
@@ -93,7 +100,6 @@ const Dashboard = () => {
                 </div>
               </div>
 
-            
               <div className="lower_section">
                 <div className="row_1">
                   <div className="circle_1">
@@ -126,7 +132,6 @@ const Dashboard = () => {
                 </div>
               </div>
 
-      
               <div className="table_section">
                 <Skeleton width="100%" height="300px" />
               </div>
@@ -136,16 +141,16 @@ const Dashboard = () => {
               <div className="header">
                 <div className="header_text">
                   <h2>Users |</h2>
-                  <span>1,893</span>
+                  <span>{userCount}</span>
                   <h3>Users</h3>
                 </div>
                 <div className="profile">
                   <div className="profile_text">
-                    <p>Iliza Charlotte</p>
+                    <p>{user ? user.name : "Loading..."}</p>
                     <span>My settings</span>
                   </div>
                   <div className="image">
-                    <img src={image} alt="Profile" />
+                    <img src={user ? user.image : ""} alt="Profile" />
                   </div>
                 </div>
               </div>

@@ -275,18 +275,18 @@
               color: white;
             }
             &.user-message {
-              align-self: flex-end; // Align user messages to the right
-              background-color: #3d64fd; // User bubble color
+              align-self: flex-end;
+              background-color: #3d64fd;
             }
 
             &.client-message {
-              align-self: flex-start; // Align client messages to the left
-              background-color: #dce6ff; // Client bubble color
+              align-self: flex-start;
+              background-color: #dce6ff;
             }
 
             &.employee-message {
-              align-self: flex-start; // Align employee messages to the left
-              background-color: #f0f0f0; // Employee bubble color
+              align-self: flex-start;
+              background-color: #f0f0f0;
             }
           }
 

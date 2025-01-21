@@ -13,79 +13,7 @@ import { GoSmiley } from "react-icons/go";
 import { HiOutlineMicrophone } from "react-icons/hi2";
 import { AiOutlineLike } from "react-icons/ai";
 import { io } from "socket.io-client";
-
-const Messages = [
-  {
-    text1:
-      "Hi, I’m feeling really overwhelmed with schoolwork lately. I don’t know how to manage it all.",
-    time1: "2024-11-12 09:00:00",
-    reply1:
-      "Hi there! I’m sorry to hear you’re feeling this way. Can you tell me more about what’s been stressing you out the most?",
-    time2: "2024-11-12 12:30:00",
-  },
-  {
-    text2:
-      "Hi there! I’m sorry to hear you’re feeling this way. Can you tell me more about what’s been stressing you out the most?",
-    time3: "2024-11-12 12:45:00",
-
-    reply2:
-      "Maybe you could set a schedule for yourself to make things more manageable. What do you think?",
-    time4: "2024-11-12 09:15:00",
-  },
-];
-
-const dummyData = [
-  {
-    first_name: "Thierry",
-    last_name: "Rugamba",
-    random_text:
-      "Things have been tense. My parents and I are not getting along, and it’s been really stressful.",
-    icon: <CiStar />,
-    date: "2024-11-12",
-    time: "14:30",
-    image: image,
-  },
-  {
-    first_name: "Gloria",
-    last_name: "Keza",
-    random_text:
-      "Honestly, not very good. I’ve been feeling really down about myself and my abilities.",
-    icon: <CiStar />,
-    date: "2024-11-11",
-    time: "09:15",
-    image: image,
-  },
-  {
-    first_name: "Patrick",
-    last_name: "Nyirinkindi",
-    random_text:
-      "Hey! Did you finish the Hi-FI wireframes for flora app design?",
-    icon: <CiStar />,
-    date: "2024-11-10",
-    time: "17:45",
-    image: image,
-  },
-  {
-    first_name: "Aline",
-    last_name: "Uwera",
-    random_text:
-      "Not great. I feel like I’m drifting apart from my friends, and I’m not sure why.",
-    icon: <CiStar />,
-    date: "2024-11-09",
-    time: "12:00",
-    image: image,
-  },
-  {
-    first_name: "Ishimwe",
-    last_name: "Uwera",
-    random_text:
-      "Not great. I feel like I’m drifting apart from my friends, and I’m not sure why.",
-    icon: <CiStar />,
-    date: "2024-11-09",
-    time: "12:00",
-    image: image,
-  },
-];
+import axios from "axios";
 
 const Chat = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -94,10 +22,27 @@ const Chat = () => {
   const [inputValue, setInputValue] = useState("");
   const navigate = useNavigate();
   const [socket, setSocket] = useState(null);
-  const [activeMessageType, setActiveMessageType] = useState("All messages");
-  const [receivedMessage, setReceivedMessage] = useState("");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState(null);
+  const [messageCounts, setMessageCounts] = useState([]);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    if (userData) {
+      setUser(userData);
+    }
+  }, []);
+
+  const fetchMessages = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/messages/");
+
+      console.log("Fetched message counts:", response.data.message_counts);
+      setMessages(response.data.messages);
+      setMessageCounts(response.data.message_counts);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
 
   useEffect(() => {
     const messageContainer = document.querySelector(".text");
@@ -123,7 +68,16 @@ const Chat = () => {
 
     socket.on("message", (data) => {
       console.log("Message from server:", data);
-      setReceivedMessage(data);
+      setMessages((prevMessages) => [data, ...prevMessages]);
+      setMessageCounts((prevCounts) => {
+        const newCounts = prevCounts.map((count) => {
+          if (count.first_name === data.first_name) {
+            return { ...count, message_count: count.message_count + 1 };
+          }
+          return count;
+        });
+        return newCounts;
+      });
     });
 
     return () => {
@@ -131,11 +85,49 @@ const Chat = () => {
     };
   }, []);
 
-  const sendMessage = () => {
-    const socket = io("http://localhost:3000");
-    socket.emit("clientMessage", message);
-    setMessage("");
-  };
+  useEffect(() => {
+    const newSocket = new WebSocket("ws://127.0.0.1:8000/ws/chat");
+
+    newSocket.onopen = () => {
+      console.log("WebSocket is open now.");
+    };
+
+    newSocket.onmessage = (event) => {
+      const receivedMessage = JSON.parse(event.data);
+      console.log("Received message:", receivedMessage);
+
+      setMessages((prevMessages) => [receivedMessage, ...prevMessages]);
+
+      // Update the message counts after receiving a new message
+      setMessageCounts((prevCounts) => {
+        const newCounts = prevCounts.map((count) => {
+          if (count.id === receivedMessage.userId) {
+            return { ...count, message_count: count.message_count + 1 };
+          }
+          return count;
+        });
+        return newCounts;
+      });
+    };
+
+    newSocket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    newSocket.onclose = () => {
+      console.log("WebSocket connection closed.");
+    };
+
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.close();
+    };
+  }, []);
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
 
   const handleItemClick = (index) => {
     setActiveIndex(index);
@@ -148,63 +140,10 @@ const Chat = () => {
     }
   };
 
-  useEffect(() => {
-    const newSocket = new WebSocket("ws://127.0.0.1:8000/ws/chat");
-
-    newSocket.onopen = () => {
-      console.log("WebSocket is open now.");
-    };
-
-    newSocket.onmessage = (event) => {
-      const receivedMessage = JSON.parse(event.data);
-      setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-    };
-
-    newSocket.onerror = (error) => {
-      console.error("WebSocket error:", error);
-      setError(`WebSocket error: ${error.message}`);
-    };
-
-    newSocket.onclose = () => {
-      console.error("WebSocket connection closed. Retrying...");
-      setError("WebSocket connection closed unexpectedly. Reconnecting...");
-      setTimeout(() => {
-        setSocket(new WebSocket("ws://127.0.0.1:8000/ws/chat"));
-      }, 5000); // Retry in 5 seconds
-    };
-
-    setSocket(newSocket);
-
-    return () => {
-      newSocket.close();
-    };
-  }, []);
-
-  const handleSendMessage = () => {
-    if (inputValue.trim() && socket) {
-      const message = {
-        message_type: "All messages",
-        message: inputValue,
-        sender: "user",
-      };
-
-      if (socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify(message));
-
-        setMessages((prevMessages) => [...prevMessages, message]);
-        setInputValue("");
-      } else {
-        console.error(
-          "WebSocket is not open. Current state:",
-          socket.readyState
-        );
-      }
-    }
-  };
-
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
+
   useEffect(() => {
     console.log(messages);
   }, [messages]);
@@ -214,6 +153,10 @@ const Chat = () => {
       .toLowerCase()
       .includes(searchTerm)
   );
+
+  const getTotalMessageCount = () => {
+    return messageCounts.reduce((sum, item) => sum + item.message_count, 0);
+  };
 
   return (
     <div className="chat-room">
@@ -252,10 +195,11 @@ const Chat = () => {
               <p>|</p>
             </div>
             <div className="row_2">
-              <span>6</span>
+              <span>{getTotalMessageCount()}</span>
               <p>New messages</p>
             </div>
           </div>
+
           <div className="search_container">
             <div className="input-container">
               <FiSearch className="search-icon" />
@@ -269,7 +213,9 @@ const Chat = () => {
           </div>
           <div className="profile">
             <div className="profile_text">
-              <p>Iliza Charlotte</p>
+              <p>
+                {user ? `${user.first_name} ${user.last_name}` : "Loading..."}
+              </p>
               <span>My settings</span>
             </div>
             <div className="image">
@@ -283,28 +229,31 @@ const Chat = () => {
               <h2>All messages</h2>
               <BsThreeDotsVertical />
             </div>
-            {filteredData.map((item, index) => (
-              <div key={index} className="chat-card">
-                <div className="chat-card-header">
-                  <div className="img_text">
-                    <img src={item.image} className="chat-card-image" />
-                    <div className="chat-card-info">
-                      <div className="icon_names">
-                        <h3>
-                          {item.first_name} {item.last_name}
-                        </h3>
-                        <div className="chat-card-icon">{item.icon}</div>
+
+            {messages && messages.length > 0 ? (
+              messages.map((item, index) => (
+                <div key={index} className="chat-card">
+                  <div className="chat-card-header">
+                    <div className="img_text">
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${item.first_name}`}
+                        className="chat-card-image"
+                        alt="profile"
+                      />
+                      <div className="chat-card-info">
+                        <h3>{item.first_name}</h3>
+                        <p>{item.message}</p>
+                        <h5>{new Date(item.timestamp).toLocaleString()}</h5>
                       </div>
-                      <p>{item.random_text}</p>
-                      <h5>
-                        {item.date} at {item.time}
-                      </h5>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p>No messages available</p>
+            )}
           </div>
+
           <div className="col_2">
             <div className="header">
               <div className="header_img_text">
@@ -355,28 +304,6 @@ const Chat = () => {
                     <AiOutlineLike />
                   </div>
                 </div>
-              </div>
-              <div className="message">
-                {messages.map((msg, index) => (
-                  <div
-                    key={index}
-                    className={
-                      msg.sender === "user"
-                        ? "user-message hidden"
-                        : msg.message_type === "clients"
-                        ? "client-message hidden"
-                        : "employee-message hidden"
-                    }
-                  >
-                    <p>
-                      <strong>
-                        {msg.message_type === "clients" ? "Client" : "Employee"}
-                        :
-                      </strong>{" "}
-                      {msg.message}
-                    </p>
-                  </div>
-                ))}
               </div>
             </div>
           </div>

@@ -1,29 +1,28 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-// import api, { API_URL } from "../../src/api";
-import api, { API_URL }from '../../api';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import api, { API_URL } from "../../api";
 import "../../styles/main/main.css";
-import Conditions from '../../components/Conditions';
+import Conditions from "../../components/Conditions";
 
 const TherapistSignupPage = () => {
   const navigate = useNavigate();
   const [isPopupOpen, setIsPopupOpen] = useState(true);
 
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    level_education: '',
-    email_address: '',
-    password: '',
-    document: null
+    first_name: "",
+    last_name: "",
+    level_education: "",
+    email_address: "",
+    password: "",
+    document: null,
   });
 
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState('');
-  const [popupType, setPopupType] = useState('');
+  const [popupMessage, setPopupMessage] = useState("");
+  const [popupType, setPopupType] = useState("");
 
   const closePopup = () => {
     setIsPopupOpen(false);
@@ -33,11 +32,9 @@ const TherapistSignupPage = () => {
     const { name, value, files } = e.target;
     setFormData({
       ...formData,
-      [name]: files ? files[0] : value
+      [name]: files ? files[0] : value,
     });
   };
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,22 +47,28 @@ const TherapistSignupPage = () => {
     }
 
     try {
-      const response = await api.post(`${API_URL}api/register/therapist/`, formDataObj, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const response = await api.post(
+        `${API_URL}api/register/therapist/`,
+        formDataObj,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       if (response.status === 201) {
-        setPopupMessage('Registration successful');
-        setPopupType('success');
-        toast.success('Registration successful!');
+        setPopupMessage("Registration successful");
+        setPopupType("success");
+        toast.success("Registration successful!");
         setShowPopup(true);
         setTimeout(() => {
-          navigate('/Dashboard');
+          navigate("/Dashboard");
         }, 2000);
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
+      const errorMessage =
+        error.response?.data?.message ||
+        "Registration failed. Please try again.";
       setPopupMessage(errorMessage);
-      setPopupType('error');
+      setPopupType("error");
       toast.error(errorMessage);
       setShowPopup(true);
     } finally {
@@ -78,7 +81,9 @@ const TherapistSignupPage = () => {
       <div className="popups">
         {showPopup && (
           <div className={`popup ${popupType}`}>
-            <span className="close-icon" onClick={() => setShowPopup(false)}>×</span>
+            <span className="close-icon" onClick={() => setShowPopup(false)}>
+              ×
+            </span>
             <p>{popupMessage}</p>
           </div>
         )}
@@ -86,7 +91,7 @@ const TherapistSignupPage = () => {
       <div className="contents">
         {isPopupOpen && <Conditions closePopup={closePopup} />}
         <form onSubmit={handleSubmit}>
-          <h2>Register as Therapist</h2>
+          <h2>Register </h2>
           <input
             type="text"
             name="first_name"
@@ -112,7 +117,9 @@ const TherapistSignupPage = () => {
             value={formData.level_education}
             onChange={handleChange}
           />
-          {errors.level_education && <p className="error">{errors.level_education}</p>}
+          {errors.level_education && (
+            <p className="error">{errors.level_education}</p>
+          )}
 
           <input
             type="email"
@@ -121,7 +128,9 @@ const TherapistSignupPage = () => {
             value={formData.email_address}
             onChange={handleChange}
           />
-          {errors.email_address && <p className="error">{errors.email_address}</p>}
+          {errors.email_address && (
+            <p className="error">{errors.email_address}</p>
+          )}
 
           <input
             type="password"
@@ -144,14 +153,14 @@ const TherapistSignupPage = () => {
           </div>
 
           <button type="submit" disabled={isLoading}>
-            {isLoading ? 'Signing up...' : 'Sign up'}
+            {isLoading ? "Signing up..." : "Sign up"}
           </button>
         </form>
 
         <div className="lower-text">
           <div className="link">
             <p>Have an account?</p>
-            <a href="/">Sign in</a>
+            <a href="/therapist_login">Sign in</a>
           </div>
         </div>
       </div>

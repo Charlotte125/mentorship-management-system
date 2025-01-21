@@ -45,6 +45,13 @@ a {
 .contents p {
   color: white;
 }
+.contents .user-info {
+  position: fixed;
+  bottom: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #3d64fd;
+}
 
 .container {
   display: flex;
@@ -55,7 +62,7 @@ a {
 }
 .container .popups {
   position: fixed;
-  top: 20%;
+  bottom: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 5px;
@@ -118,11 +125,11 @@ form input {
 form button {
   padding: 14px 16px 14px 16px;
   border: 1px solid rgba(30, 30, 30, 0.2);
-  background-color: #3D64FD;
+  background-color: #3d64fd;
   border-radius: 10px;
   width: 359px;
   height: 45px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 14px;
 }
 form .field {
@@ -138,7 +145,7 @@ form .field {
   gap: 8px;
 }
 .lower-text a {
-  color: #3D64FD;
+  color: #3d64fd;
   text-decoration: none;
 }
 .lower-text .link {
@@ -151,7 +158,7 @@ form .field {
 
 .loading-icon {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #FFFFFF;
+  border-left-color: #ffffff;
   border-radius: 100%;
   width: 100px;
   height: 140px;
