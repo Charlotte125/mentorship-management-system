@@ -14,7 +14,6 @@ const api = axios.create({
     },
 });
 
-
 api.interceptors.request.use(
     (config) => {
         const accessToken = localStorage.getItem("access");
@@ -31,7 +30,6 @@ export const getLoggedInUser = () => {
     return user || null;  
 };
 
-
 export const getUserCount = async () => {
     try {
         const response = await api.get('/api/userCount'); 
@@ -42,4 +40,22 @@ export const getUserCount = async () => {
     }
 };
 
+
+export const getUserData = async (token) => {
+    try {
+        const response = await api.get('/api/users/', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;  
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        throw error;  
+    }
+};
+
 export default api;
+
+
+

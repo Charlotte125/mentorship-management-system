@@ -30,7 +30,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000);
+    const timer = setTimeout(() => setIsLoading(false), 2000); // Mimicking loading
     return () => clearTimeout(timer);
   }, []);
 
@@ -55,9 +55,40 @@ const Dashboard = () => {
     setShowLogoutPopup(false);
   };
 
+  const [counts, setCounts] = useState({
+    therapists: 0,
+    total_users: 0,
+    active_students: 0,
+    university_staff: 0,
+  });
+
+  useEffect(() => {
+    console.log("Counts state updated:", counts);
+  }, [counts]);
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/count/users/");
+        const data = await response.json();
+        setCounts({
+          therapists: data.therapists,
+          total_users: data.total_users,
+          active_students: data.active_students,
+          university_staff: data.university_staff,
+        });
+      } catch (error) {
+        console.error("Error fetching counts:", error);
+      }
+    };
+
+    fetchCounts();
+  }, []);
+
   return (
     <section className="therapist_dashboard">
       <div className="dashboard">
+        {/* Sidebar always visible */}
         <div className="side_bar">
           <div className="logo_image">
             <img src={logo} alt="logo" />
@@ -86,9 +117,11 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* Content Area with Skeleton Effect */}
         <div className="therapist_contents">
           {isLoading ? (
             <>
+              {/* Skeleton Loader for Content */}
               <div className="header">
                 <div className="header_text">
                   <Skeleton width="150px" height="30px" />
@@ -102,32 +135,30 @@ const Dashboard = () => {
 
               <div className="lower_section">
                 <div className="row_1">
-                  <div className="circle_1">
-                    <img src={profile} alt="Profile Icon" />
-                  </div>
+                  <Skeleton width="70px" height="70px" borderRadius="50%" />
                   <div className="circle_text">
-                    <Skeleton width="100px" height="20px" />
-                    <Skeleton width="40px" height="20px" />
+                    <Skeleton width="80px" height="20px" />
                   </div>
                 </div>
                 <p>|</p>
                 <div className="row_1">
-                  <div className="circle_1">
-                    <img src={tick} alt="Tick Icon" />
-                  </div>
+                  <Skeleton width="70px" height="70px" borderRadius="50%" />
                   <div className="circle_text">
-                    <Skeleton width="100px" height="20px" />
-                    <Skeleton width="40px" height="20px" />
+                    <Skeleton width="80px" height="20px" />
                   </div>
                 </div>
                 <p>|</p>
                 <div className="row_1">
-                  <div className="circle_1">
-                    <img src={monitor} alt="Monitor Icon" />
-                  </div>
+                  <Skeleton width="70px" height="70px" borderRadius="50%" />
                   <div className="circle_text">
-                    <Skeleton width="100px" height="20px" />
-                    <Skeleton width="40px" height="20px" />
+                    <Skeleton width="80px" height="20px" />
+                  </div>
+                </div>
+                <p>|</p>
+                <div className="row_1">
+                  <Skeleton width="70px" height="70px" borderRadius="50%" />
+                  <div className="circle_text">
+                    <Skeleton width="80px" height="20px" />
                   </div>
                 </div>
               </div>
@@ -138,6 +169,7 @@ const Dashboard = () => {
             </>
           ) : (
             <>
+              {/* Actual Content */}
               <div className="header">
                 <div className="header_text">
                   <h2>Users |</h2>
@@ -161,8 +193,8 @@ const Dashboard = () => {
                     <img src={profile} alt="Profile Icon" />
                   </div>
                   <div className="circle_text">
-                    <p>Total therapists</p>
-                    <span>12</span>
+                    <p>Total Therapists</p>
+                    <span>{counts.therapists}</span>
                   </div>
                 </div>
                 <p>|</p>
@@ -171,8 +203,8 @@ const Dashboard = () => {
                     <img src={tick} alt="Tick Icon" />
                   </div>
                   <div className="circle_text">
-                    <p>Total users</p>
-                    <span>1,890</span>
+                    <p>Total Users</p>
+                    <span>{counts.total_users.toLocaleString()}</span>
                   </div>
                 </div>
                 <p>|</p>
@@ -181,8 +213,19 @@ const Dashboard = () => {
                     <img src={monitor} alt="Monitor Icon" />
                   </div>
                   <div className="circle_text">
-                    <p>Active Now</p>
-                    <span>189</span>
+                    <p>Active Students</p>
+                    <span>{counts.active_students}</span>
+                  </div>
+                </div>
+                <p>|</p>
+
+                <div className="row_1">
+                  <div className="circle_1">
+                    <img src={monitor} alt="Monitor Icon" />
+                  </div>
+                  <div className="circle_text">
+                    <p>University staff</p>
+                    <span>{counts.university_staff}</span>
                   </div>
                 </div>
               </div>

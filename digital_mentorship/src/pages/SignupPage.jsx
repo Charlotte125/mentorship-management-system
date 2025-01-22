@@ -54,7 +54,6 @@ const SignupPage = () => {
       }
     } catch (error) {
       if (error.response) {
-        // Server responded with an error
         if (error.response.status === 400) {
           setPopupMessage("Invalid input. Please check your details.");
           toast.error("Invalid input. Please check your details.");
@@ -68,13 +67,11 @@ const SignupPage = () => {
           toast.error("An unexpected error occurred.");
         }
       } else if (error.request) {
-        // Request was made but no response received
         setPopupMessage(
           "No response from server. Check your network connection."
         );
         toast.error("No response from server.");
       } else {
-        // Something else happened
         setPopupMessage("An error occurred. Please try again.");
         toast.error("An error occurred.");
       }
